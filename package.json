@@ -1,14 +1,14 @@
 {
-  "name": "errnd",
+  "name": "advertiseit",
   "version": "1.0.0",
-  "description": "A platform where your errands are completed by your communities",
+  "description": "AdvertiseIt is a platform to do social commerce",
   "main": "index.js",
   "scripts": {
     "pretest": "npm run lint && npm run db:undo:migrate:test && npm run db:migrate:test && npm run db:seed:test",
     "test": "cross-env NODE_ENV=test nyc mocha ./test/index --require babel-register --exit --timeout 250000",
     "posttest": "npm run db:undo:migrate:test",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "start:dev": "npm run db:migrate && cross-env NODE_ENV=development nodemon index.js --exec babel-node --",
+    "start:dev": "cross-env NODE_ENV=development npm run db:migrate && cross-env NODE_ENV=development nodemon index.js --exec babel-node --",
     "db:undo:migrate": "node_modules/.bin/sequelize db:migrate:undo:all",
     "db:undo:migrate:test": "cross-env NODE_ENV=test node_modules/.bin/sequelize db:migrate:undo:all",
     "db:migrate": "node_modules/.bin/sequelize db:migrate",
@@ -17,21 +17,21 @@
     "db:seed": "node_modules/.bin/sequelize db:seed:all",
     "db:seed:test": "cross-env NODE_ENV=test node_modules/.bin/sequelize db:seed:all",
     "lint": "./node_modules/.bin/eslint ./ --fix --ignore-path .gitignore",
-    "start": "cross-env NODE_ENV=production npm run build && npm run db:migrate && node dist/index.js",
+    "start": "cross-env NODE_ENV=production npm run build && npm run db:migrate && npm run db:seed && node dist/index.js",
     "build": "npm run clean && babel ./ --ignore node_modules,test,coverage,dist -d dist/",
     "clean": "rimraf ./dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/net-square-designs/Errnd.git"
+    "url": "git+https://github.com/net-square-designs/AdvertiseIt_Backend.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/net-square-designs/Errnd/issues"
+    "url": "https://github.com/net-square-designs/AdvertiseIt_Backend/issues"
   },
-  "homepage": "https://github.com/net-square-designs/Errnd#readme",
+  "homepage": "https://github.com/net-square-designs/AdvertiseIt_Backend#readme",
   "nyc": {
     "exclude": [
       "build",
@@ -65,6 +65,8 @@
     "morgan": "^1.9.1",
     "nodemon": "^1.18.9",
     "npm": "^6.4.1",
+    "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
     "pg": "^7.7.1",
     "pg-hstore": "^2.3.2",
     "rimraf": "^2.6.2",

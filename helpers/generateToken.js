@@ -6,16 +6,18 @@ dotenv.config();
  * Gnerate Token
  * @param {string} email - user's email
  * @param {string} userId - user's id
- * @param {string} role - user's role ['runner', 'customer']
+ * @param {string} role - user's role ['customer-merchant', 'influencer']
+ * @param {array} productsofinterest - user's products of interest to buy, sell or influence
  * @returns {string} - generated token
  */
-const generateToken = (email, userId, role, username) => {
+const generateToken = (email, userId, role, username, productsofinterest) => {
   const token = jwt.sign(
     {
       email,
       userId,
       role,
-      username
+      username,
+      productsofinterest
     },
     process.env.SECRET_KEY,
     {

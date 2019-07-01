@@ -9,19 +9,20 @@ chai.use(chaiHttp);
 chai.should();
 
 const newUserData = {
-  role: 'runner',
+  role: 'customer-merchant',
   password: 'newTestUserPassword@@@!!!444',
-  email: 'newtestuseremail@errnd.com',
+  email: 'newtestuseremail@advertiseit.com',
   username: 'newtestuser',
+  productsofinterest: ['tech', 'gaming', 'apple']
 };
 
 const userLoginData = {
-  email: 'testrunner1@errnd.com',
-  username: 'testrunner1',
-  password: 'errndPassword1234567890@@@@@@###!!!',
+  email: 'newtestuseremail@advertiseit.com',
+  username: 'newtestuser',
+  password: 'newTestUserPassword@@@!!!444',
 };
 
-describe('Errnd User Test Suite', () => {
+describe('AdvertiseIt User Test Suite', () => {
   // ==== Sign up a user ==== //
   describe(' POST auth/signup - Sign up a new user', () => {
     it('should return status code 201 on signing up a new user', async () => {
@@ -39,7 +40,7 @@ describe('Errnd User Test Suite', () => {
       const res = await chai.request(app)
         .post('/api/v1/auth/signup')
         .send(Object.assign(newUserData, {
-          email: 'testrunner1@errnd.com',
+          email: 'merchant1@advertiseit.com',
         }));
       res.status.should.equal(409);
       res.body.should.be.a('object');
@@ -74,7 +75,7 @@ describe('Errnd User Test Suite', () => {
       res.body.data.error.email.should.equal('Invalid email');
     });
 
-    it('should return status code 400 if role is not runner', async () => {
+    it('should return status code 400 if role is not customer-merchant', async () => {
       const res = await chai.request(app)
         .post('/api/v1/auth/signup')
         .send(Object.assign(newUserData, {
@@ -97,15 +98,15 @@ describe('Errnd User Test Suite', () => {
       res.body.should.be.a('object');
       res.body.should.have.property('data');
       res.body.should.have.property('status');
-      res.body.data.message.should.equal('Welcome testrunner1');
+      res.body.data.message.should.equal('Welcome newtestuser');
     });
 
     it('should return status code 404 if user is not found', async () => {
       const res = await chai.request(app)
         .post('/api/v1/auth/login')
         .send(Object.assign(userLoginData, {
-          email: 'invalidusererrnd@errnd.com',
-          username: 'invalidusererrndusername',
+          email: 'invaliduseradveritiseit@advertiseit.com',
+          username: 'invaliduseradvertiseitusername',
         }));
       res.status.should.equal(404);
       res.body.should.be.a('object');
