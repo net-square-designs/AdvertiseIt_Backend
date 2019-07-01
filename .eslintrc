@@ -1,0 +1,40 @@
+{
+    "root": true,
+    "extends": "airbnb-base",
+    "env": {
+      "node": true,
+      "es6": true,
+      "mocha": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 6
+    },
+    "rules": {
+      "consistent-return": "off",
+      "no-param-reassign": "warn",
+      "comma-dangle": 0,
+      "curly": [
+        "error",
+        "multi-line"
+      ],
+      "import/no-cycle": "off",
+      "import/no-unresolved": [
+        2,
+        {
+          "commonjs": true
+        }
+      ],
+      "no-shadow": [
+        "error",
+        {
+          "allow": [
+            "req",
+            "res",
+            "err"
+          ]
+        }
+      ]
+    }
+  }
+  

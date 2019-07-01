@@ -1,0 +1,2427 @@
+FORMAT: 1A
+HOST: https://errnd.herokuapp.com/api/v1
+
+# Errnd
+
+Errnd is a platform where your errands are completed by your communities
+
+#### Features 
+
+  * Users can create an account and log in
+  * Users can create a profile and view their profile or others profile
+  * Users can switch thier role from runner to customer and vice versa
+  * Users can create and update services
+  * Users can view services created
+  * Users can search for services
+  * Users can create, retrieve, search and delete services bookmarked
+  * Users can send and receive messages
+  * Users can receive notifications
+
+
+## Welcome Page [/]
+
+### Welcome a user [GET]
+
+  * Helps to welcome a user to the API
+  
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Welcome to Errnd API, A platform where your errands are completed by your communities"
+                }
+            }
+
+## Sign up [/auth/signup]
+
+### Sign up  a user [POST]
+
+  * Helps a user to sign up on the API
+  
++ Request (application/json)
+
+        {
+            "role": "runner",
+            "email": "newuser@email.com",
+            "password": "password",
+            "username": "newuser"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /auth/signup
+
+    + Body        
+    
+            {
+                "status": 201,
+                "data": {
+                    "message": "User created successfully",
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyNDAwMEBjdXN0b21lci5jb20iLCJ1c2VySWQiOjUsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTU1OTE0ODI3NSwiZXhwIjoxNTU5MjM0Njc1fQ.E0sQef1pYjYI0B0v6IDokrwiW-2XF1ADJE4ddy2bqJ0"
+                }
+            }
+            
+              
+        
++ Response 409 (application/json)
+
+    + Headers
+
+            Location: /auth/signup
+
+    + Body        
+    
+            {
+                "status": 409,
+                "data": {
+                    "error": "User already exists, please sign up a new user"
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /auth/signup
+
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "email": "Invalid email"
+                    }
+                }
+            }
+
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": "role must be runner or customer"
+                }
+            }         
+      
+
+## Signin [/auth/login]
+
+### Login a user [POST]
+
+  * Helps a user to use all features of the API
+  
++ Request (application/json)
+
+        {
+                "email": "newuser@email.com",
+                "password": "password"
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /auth/login
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Welcome newuser",
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImN1c3RvbWVyNDAwMEBjdXN0b21lci5jb20iLCJ1c2VySWQiOjUsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTU1OTE0ODM4MywiZXhwIjoxNTU5MjM0NzgzfQ.Y6Uao5otns3NJSWwGo-XgOwW8PTckVlu1QPgJ11UN04"
+                }
+            }
+       
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /auth/login
+
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    message: 'Invalid email/username or password',
+                }
+            }
+
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /auth/login
+
+    + Body        
+    
+            {
+                status: 404,
+                data: {
+                    error: 'User not found, please register user onto the platform',
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /auth/login
+
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        emailOrUsername: 'email or username must be filled',
+                        password: 'password must be filled',
+                    }
+                }
+            }
+
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        email: 'Invalid email'
+                    }
+                }
+                
+## Profile [/profile/{username}]
++ Parameters
+    + username (text) - johndolly
+
+### Create user's profile [POST]
+
+  * Helps a user to populate his profile after signing up onto the platform
+  
++ Request
+
+    + Body
+    
+            {
+                "firstName": "John",
+                "lastName": "Dolly",
+                "image": "https://images.unsplash.com/photo-1497551060073-4c5ab6435f12?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80",
+                "location": "Lagos",
+                "bio": "I am a sofware engineer",
+                "phone": "09099933373"
+            }
+    
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
+            
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /profile/johndolly
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Users profile created successfully",
+                    "profile": {
+                        "id": 1,
+                        "firstName": "John",
+                        "lastName": "Dolly",
+                        "phone": "09099933373",
+                        "image": "https://images.unsplash.com/photo-1497551060073-4c5ab6435f12?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80",
+                        "bio": "I am a sofware engineer",
+                        "location": "Lagos",
+                        "createdAt": "2019-05-30T21:05:53.725Z",
+                        "updatedAt": "2019-06-01T13:42:53.520Z",
+                        "userId": 10
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /auth/johndolly
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, you cannot edit another person's profile',
+                }
+            }
+            
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated',
+                }
+            }
+
+### View a user's profile [GET]
+
+  * Helps a user to get his or other people profile
+  
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /profile/billzuckerberg
+
+    + Body        
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Users profile returned succesfully",
+                    "user": {
+                        "id": 4,
+                        "firstName": "Bill",
+                        "lastName": "Zuckerberg",
+                        "phone": "09099933323",
+                        "image": "https://images.unsplash.com/photo-1497551060073-4c5ab6435f12?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80",
+                        "bio": "I am a sofware engineer and ceo",
+                        "location": "Lagos",
+                        "createdAt": "2019-06-01T13:47:31.063Z",
+                        "updatedAt": "2019-06-01T13:47:31.063Z",
+                        "role": "customer",
+                        "email": "runner@runner.com",
+                        "username": "runner"
+                    }
+                }
+            }
+
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /profile/unregistereduser
+
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "User's profile not found",
+                    "profile": {}
+                }
+            }
+
+## Role [/role/{username}]
++ Parameters
+    + username (text) - johndolly
+
+### Switch user's role [PUT]
+
+  * Helps a user to switch his role from runner to customer and vice versa
+  
++ Request
+
+    + Body
+    
+            {
+                "role": "customer"
+            }
+    
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
+            
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /role/johndolly
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Users role switched succesfully"
+                }
+            }
+        
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /role/johndolly
+
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "User's profile not found",
+                    "profile": {}
+                }
+            }
+                
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /role/johndolly
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, you cannot switch another person's role'
+                }
+            }   
+              
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /role/johndolly
+
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": "role must be runner or customer"
+                }
+            }
+            
+            
+## Services [/services/{username}]
++ Parameters
+    + username (text) - johndolly
+
+### A runner can create a service [POST]
+
+  * Helps a runner to create a service
+  
++ Request
+
+    + Body
+    
+                {
+                     "category": "Computer Science",
+                     "subcategory": "Web Development",
+                     "title": "Develop your web app", 
+                     "description": "I can develop your web app using express,react and react native following TDD and Agile",
+                     "price": 3500,
+                     "days": 3,
+                     "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                     "packageoptions": [{
+                        "serviceA": "add map to the web app",
+                        "quantity": 1,
+                        "type": "basic",
+                        "price": 2500
+                     },
+                    {
+                     "serviceB": "add timer to the web app",
+                     "quantity": 1,
+                     "type": "basic",
+                     "price": 1000
+                    }]
+                }
+
+    
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
+            
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /services/johndolly
+
+    + Body        
+    
+    
+            {
+                "status": 201,
+                "data": {
+                    "message": "Service created successfully",
+                    "service": {
+                        "id": 1,
+                        "category": "Computer Science",
+                        "subcategory": "Web Development",
+                        "title": "Develop your web app",
+                        "description": "I can develop your web app using express,react and react native following TDD and Agile",
+                        "price": 3500,
+                        "days": 3,
+                        "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                        "packageoptions": [
+                            {
+                                "serviceA": "add map to the web app",
+                                "quantity": 1,
+                                "type": "basic",
+                                "price": 2500
+                            },
+                            {
+                                "serviceB": "add timer to the web app",
+                                "quantity": 1,
+                                "type": "basic",
+                                "price": 1000
+                            }
+                        ],
+                        "userId": 1,
+                        "updatedAt": "2019-06-06T12:49:06.704Z",
+                        "createdAt": "2019-06-06T12:49:06.704Z"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /services/johndolly
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, you cannot create a service on behalf of another user',
+                }
+            }
+            
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated',
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /services/johndolly
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "price": "price must be a number",
+                        "days": ""
+                    }
+                }
+            }
+            
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "category": "category must be filled",
+                        "subcategory": "",
+                        "title": "",
+                        "price": "",
+                        "days": ""
+                    }
+                }
+            }  
+            
+### Retrieve all created services by a runner [GET]
+
+  * Helps to retrieve all created services by a runner
+  
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /services/johndolly
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "All runner services returned successfully",
+                    "services": [
+                        {
+                            "id": 2,
+                            "category": "Phones",
+                            "subcategory": "Android phone repair",
+                            "title": "Repair your Android phone",
+                            "description": "I can repair any type of android device from Samsung to Techno, itel, infinix etc",
+                            "price": 1200,
+                            "days": 1,
+                            "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                            "packageoptions": [
+                                {
+                                    "serviceA": "add music to your androis phone",
+                                    "quantity": 3,
+                                    "type": "basic",
+                                    "price": 450
+                                }
+                            ],
+                            "createdAt": "2019-06-06T17:09:27.138Z",
+                            "updatedAt": "2019-06-06T17:09:27.138Z",
+                            "user": {
+                                "email": "testrunner2@errnd.com",
+                                "username": "testrunner2"
+                            }
+                        }
+                    ]
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /services/johndolly/1
+
+            
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "Runner not found"
+                }
+            }
+
+## Update a Service [/services/{username}/update/{serviceId}]
++ Parameters
+    + username (text) - johndolly
+    + serviceId (number) - 1
+
+### A runner can update a service [POST]
+
+  * Helps a runner to update a service he created
+  
++ Request
+
+    + Body
+    
+               {
+                  "category": "Computer Science",
+                  "subcategory": "Web Development",
+                  "title": "Develop your mobile app",
+                  "description": "I can develop your mobile app using Java/android following TDD and Agile",
+                  "price": 3500,
+                  "days": 1,
+                  "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                  "packageoptions": [{
+                        "serviceA": "add map to the mobile app",
+                        "quantity": 1,
+                        "type": "basic",
+                        "price": 2500
+                     },
+                    {
+                     "serviceB": "add timer to the mobile app",
+                     "quantity": 1,
+                     "type": "basic",
+                     "price": 1000
+                    }]
+                }
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
+            
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /services/johndolly/update/1
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Service updated successfully",
+                    "service": {
+                        "id": 1,
+                        "category": "Computer Science",
+                        "subcategory": "Web Development",
+                        "title": "Develop your mobile app",
+                        "description": "I can develop your mobile app using Java/android following TDD and Agile",
+                        "price": 3500,
+                        "days": 1,
+                        "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                        "packageoptions": [{
+                        "serviceA": "add map to the mobile app",
+                        "quantity": 1,
+                        "type": "basic",
+                        "price": 2500
+                        },
+                        {
+                         "serviceB": "add timer to the mobile app",
+                         "quantity": 1,
+                         "type": "basic",
+                         "price": 1000
+                        }]
+                        "createdAt": "2019-06-05T12:46:55.003Z",
+                        "updatedAt": "2019-06-05T14:30:06.576Z",
+                        "userId": 1
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /services/johndolly/update/1
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, you cannot update a service on behalf of another user',
+                }
+            }
+            
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated',
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /services/johndolly/update/1
+
+            
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "Service not found",
+                    "service": {}
+                }
+            }
+            
+## View all services [/services]
+
+### Retrieve all created services [GET]
+
+  * Helps to retrieve all created services
+  
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /services
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "All runners services returned successfully",
+                    "services": [
+                        {
+                            "id": 2,
+                            "category": "Phones",
+                            "subcategory": "Android phone repair",
+                            "title": "Repair your Android phone",
+                            "description": "I can repair any type of android device from Samsung to Techno, itel, infinix etc",
+                            "price": 1200,
+                            "days": 1,
+                            "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                            "packageoptions": [
+                                {
+                                    "serviceA": "add music to your androis phone",
+                                    "quantity": 3,
+                                    "type": "basic",
+                                    "price": 450
+                                }
+                            ],
+                            "createdAt": "2019-06-06T17:09:27.138Z",
+                            "updatedAt": "2019-06-06T17:09:27.138Z",
+                            "user": {
+                                "email": "testrunner2@errnd.com",
+                                "username": "testrunner2"
+                            }
+                        },
+                        {
+                            "id": 1,
+                            "category": "Computer Science",
+                            "subcategory": "Web Development",
+                            "title": "Develop your web app",
+                            "description": "I can develop your web app using express,react and react native following TDD and Agile",
+                            "price": 3500,
+                            "days": 3,
+                            "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                            "packageoptions": [
+                                {
+                                    "serviceA": "add map to the web app",
+                                    "quantity": 1,
+                                    "type": "basic",
+                                    "price": 2500
+                                },
+                                {
+                                    "serviceB": "add timer to the web app",
+                                    "quantity": 1,
+                                    "type": "basic",
+                                    "price": 1000
+                                }
+                            ],
+                            "createdAt": "2019-06-06T12:49:06.704Z",
+                            "updatedAt": "2019-06-06T12:49:06.704Z",
+                            "user": {
+                                "email": "testrunner1@errnd.com",
+                                "username": "testrunner1"
+                            }
+                        }
+                    ]
+                }
+            }
+            
+## View a specific services [/services/{username}/{serviceId}]
++ Parameters
+    + username (text) - johndolly
+    + serviceId (number) - 1
+
+### Retrieve a specific services by a runner [GET]
+
+  * Helps to retrieve a specific services by a runner
+  
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /services/johndolly/1
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Specific runner services returned successfully",
+                    "services": [
+                        {
+                            "id": 1,
+                            "category": "Computer Science",
+                            "subcategory": "Web Development",
+                            "title": "Develop your web app",
+                            "description": "I can develop your web app using express,react and react native following TDD and Agile",
+                            "price": 3500,
+                            "days": 3,
+                            "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                            "packageoptions": [
+                                {
+                                    "serviceA": "add map to the web app",
+                                    "quantity": 1,
+                                    "type": "basic",
+                                    "price": 2500
+                                },
+                                {
+                                    "serviceB": "add timer to the web app",
+                                    "quantity": 1,
+                                    "type": "basic",
+                                    "price": 1000
+                                }
+                            ],
+                            "createdAt": "2019-06-06T12:49:06.704Z",
+                            "updatedAt": "2019-06-06T12:49:06.704Z",
+                            "user": {
+                                "email": "testrunner1@errnd.com",
+                                "username": "testrunner1"
+                            }
+                        }
+                    ]
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /services/johndolly/1
+
+            
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "Runner not found"
+                }
+            }
+            
+## Search for services [/services/search?query=Develop your web app]
+
+### Retrieve services by searching for them [GET]
+
+  * Helps to retrieve services that match certain search parameters
+  
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /services/search?query=Develop your web app
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Searched services returned successfully",
+                    "services": [
+                        {
+                            "id": 1,
+                            "category": "Computer Science",
+                            "subcategory": "Web Development",
+                            "title": "Develop your web app",
+                            "description": "I can develop your web app using express,react and react native following TDD and Agile",
+                            "price": 3500,
+                            "days": 3,
+                            "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                            "packageoptions": [
+                                {
+                                    "serviceA": "add map to the web app",
+                                    "quantity": 1,
+                                    "type": "basic",
+                                    "price": 2500
+                                },
+                                {
+                                    "serviceB": "add timer to the web app",
+                                    "quantity": 1,
+                                    "type": "basic",
+                                    "price": 1000
+                                }
+                            ],
+                            "createdAt": "2019-06-06T12:49:06.704Z",
+                            "updatedAt": "2019-06-06T12:49:06.704Z",
+                            "user": {
+                                "email": "testrunner1@errnd.com",
+                                "username": "testrunner1"
+                            }
+                        }
+                    ]
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /services/search?query=vvbvvnvnvnvnvnn
+
+            
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "No services matching the searched parameter",
+                    "services": {}
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /services/search?querrrrrrry=Develop your web app
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "message": "Invalid url, url should be like /search?query="
+                }
+            }        
+            
+            
+## Bookmark services [/bookmarks/create]
+
+### Create a bookmark [POST]
+
+  * Helps to create a bookmark for services
+  
++ Request (application/json)
+
+    + Body
+    
+               {
+                  "title": "Develop your web app"
+               }
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /bookmarks/create
+
+    + Body        
+    
+    
+            {
+                "status": 201,
+                "data": {
+                    "message": "Services bookmarked successfully",
+                    "bookmark": {
+                        "id": 1,
+                        "title": "Develop your web app",
+                        "createdAt": "2019-06-16T19:08:05.093Z",
+                        "updatedAt": "2019-06-16T19:08:05.093Z",
+                        "userId": 2,
+                        "serviceId": 1,
+                        "service": {
+                            "category": "Computer Science",
+                            "subcategory": "Web Development",
+                            "title": "Develop your web app",
+                            "description": "I can develop your web app using express,react and react native following TDD and Agile",
+                            "price": 3500,
+                            "days": 3,
+                            "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                            "packageoptions": [
+                                {
+                                    "serviceA": "add map to the web app",
+                                    "quantity": 1,
+                                    "type": "basic",
+                                    "price": 2500
+                                },
+                                {
+                                    "serviceB": "add timer to the web app",
+                                    "quantity": 1,
+                                    "type": "basic",
+                                    "price": 1000
+                                }
+                            ],
+                            "createdAt": "2019-06-06T12:49:06.704Z",
+                            "updatedAt": "2019-06-06T12:49:06.704Z"
+                        },
+                        "user": {
+                            "email": "testrunner2@errnd.com",
+                            "username": "testrunner2"
+                        }
+                    }
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /bookmarks/create
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /bookmarks/create
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated',
+                }
+            }   
+
+## Retrieve all bookmarked services [/bookmarks]
+
+### Retrieve bookmarks [GET]
+
+  * Helps to retrieves all bookmarks created by a user
+  
++ Request (application/json)
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /bookmarks/create
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Bookmarked services returned successfully",
+                    "bookmark": {
+                        "count": 2,
+                        "rows": [
+                            {
+                                "id": 2,
+                                "title": "Develop your mobile app",
+                                "createdAt": "2019-06-16T19:08:05.093Z",
+                                "updatedAt": "2019-06-16T19:08:05.093Z",
+                                "userId": 2,
+                                "serviceId": 1,
+                                "service": {
+                                    "category": "Computer Science",
+                                    "subcategory": "Mobile Development",
+                                    "title": "Develop your mobile app",
+                                    "description": "I can develop your mobile app using react native following TDD and Agile",
+                                    "price": 2500,
+                                    "days": 2,
+                                    "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                                    "packageoptions": [
+                                        {
+                                            "serviceA": "add map to the web app",
+                                            "quantity": 1,
+                                            "type": "basic",
+                                            "price": 1500
+                                        },
+                                        {
+                                            "serviceB": "add timer to the web app",
+                                            "quantity": 1,
+                                            "type": "basic",
+                                            "price": 1000
+                                        }
+                                    ],
+                                    "createdAt": "2019-06-06T12:49:06.704Z",
+                                    "updatedAt": "2019-06-06T12:49:06.704Z"
+                                },
+                                "user": {
+                                    "email": "testrunner2@errnd.com",
+                                    "username": "testrunner2"
+                                }
+                            },
+                            {
+                                "id": 1,
+                                "title": "Develop your web app",
+                                "createdAt": "2019-06-16T03:02:16.093Z",
+                                "updatedAt": "2019-06-16T03:02:16.093Z",
+                                "userId": 2,
+                                "serviceId": 1,
+                                "service": {
+                                    "category": "Computer Science",
+                                    "subcategory": "Web Development",
+                                    "title": "Develop your web app",
+                                    "description": "I can develop your web app using express,react and react native following TDD and Agile",
+                                    "price": 3500,
+                                    "days": 3,
+                                    "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                                    "packageoptions": [
+                                        {
+                                            "serviceA": "add map to the web app",
+                                            "quantity": 1,
+                                            "type": "basic",
+                                            "price": 2500
+                                        },
+                                        {
+                                            "serviceB": "add timer to the web app",
+                                            "quantity": 1,
+                                            "type": "basic",
+                                            "price": 1000
+                                        }
+                                    ],
+                                    "createdAt": "2019-06-06T12:49:06.704Z",
+                                    "updatedAt": "2019-06-06T12:49:06.704Z"
+                                },
+                                "user": {
+                                    "email": "testrunner2@errnd.com",
+                                    "username": "testrunner2"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /bookmarks
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /bookmarks
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated',
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /bookmarks
+
+            
+    + Body        
+    
+            {
+                status: 404,
+                data: {
+                    message: 'No bookmarked services found',
+                    bookmark: {}
+                }
+            }
+            
+## Search for bookmarked services [/bookmarks/search?query=app]
+
+### Search bookmarks [GET]
+
+  * Helps to search for bookmarked services based on search parameters
+  
++ Request (application/json)
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /bookmarks/search?query=app
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Bookmarked services returned successfully",
+                    "bookmark": {
+                        "count": 2,
+                        "rows": [
+                            {
+                                "id": 2,
+                                "title": "Develop your mobile app",
+                                "createdAt": "2019-06-16T19:08:05.093Z",
+                                "updatedAt": "2019-06-16T19:08:05.093Z",
+                                "userId": 2,
+                                "serviceId": 1,
+                                "service": {
+                                    "category": "Computer Science",
+                                    "subcategory": "Mobile Development",
+                                    "title": "Develop your mobile app",
+                                    "description": "I can develop your mobile app using react native following TDD and Agile",
+                                    "price": 2500,
+                                    "days": 2,
+                                    "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                                    "packageoptions": [
+                                        {
+                                            "serviceA": "add map to the web app",
+                                            "quantity": 1,
+                                            "type": "basic",
+                                            "price": 1500
+                                        },
+                                        {
+                                            "serviceB": "add timer to the web app",
+                                            "quantity": 1,
+                                            "type": "basic",
+                                            "price": 1000
+                                        }
+                                    ],
+                                    "createdAt": "2019-06-06T12:49:06.704Z",
+                                    "updatedAt": "2019-06-06T12:49:06.704Z"
+                                },
+                                "user": {
+                                    "email": "testrunner2@errnd.com",
+                                    "username": "testrunner2"
+                                }
+                            },
+                            {
+                                "id": 1,
+                                "title": "Develop your web app",
+                                "createdAt": "2019-06-16T03:02:16.093Z",
+                                "updatedAt": "2019-06-16T03:02:16.093Z",
+                                "userId": 2,
+                                "serviceId": 1,
+                                "service": {
+                                    "category": "Computer Science",
+                                    "subcategory": "Web Development",
+                                    "title": "Develop your web app",
+                                    "description": "I can develop your web app using express,react and react native following TDD and Agile",
+                                    "price": 3500,
+                                    "days": 3,
+                                    "media": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+                                    "packageoptions": [
+                                        {
+                                            "serviceA": "add map to the web app",
+                                            "quantity": 1,
+                                            "type": "basic",
+                                            "price": 2500
+                                        },
+                                        {
+                                            "serviceB": "add timer to the web app",
+                                            "quantity": 1,
+                                            "type": "basic",
+                                            "price": 1000
+                                        }
+                                    ],
+                                    "createdAt": "2019-06-06T12:49:06.704Z",
+                                    "updatedAt": "2019-06-06T12:49:06.704Z"
+                                },
+                                "user": {
+                                    "email": "testrunner2@errnd.com",
+                                    "username": "testrunner2"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /bookmarks/search?query=app
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /bookmarks/search?query=app
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated',
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /bookmarks/search?query=app
+
+            
+    + Body        
+    
+            {
+                status: 404,
+                data: {
+                    message: 'No bookmarked services found',
+                    bookmark: {}
+                }
+            }   
+            
+## Delete bookmarked services [/bookmarks/remove/{serviceId}]
++ Parameters
+    + serviceId (number) - 1
+
+### Delete bookmarks [DELETE]
+
+  * Helps to delete bookmarked services based
+  
++ Request (application/json)
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /bookmarks/remove/1
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Bookmarked services deleted successfully"
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /bookmarks/remove/1
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /bookmarks/remove/1
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated',
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /bookmarks/remove/1
+
+            
+    + Body        
+    
+            {
+                status: 404,
+                data: {
+                    message: 'No bookmarked services found',
+                    bookmark: {}
+                }
+            }
+            
+            
+## Messages [/messages/send/{username}]
++ Parameters
+    + username (text) - testrunner1
+
+### Send a message [POST]
+
+  * Helps a user to send message to another user
+  
++ Request (application/json)
+
+    + Body
+    
+               {
+                  "message": "Hello, I can develop your web app"
+               }
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /messages/send/testrunner1
+
+    + Body        
+    
+    
+            {
+                "status": 201,
+                "data": {
+                    "message": "Message sent successfully",
+                    "sentMessage": {
+                        "id": 1,
+                        "message": "Hello, I can develop your web app",
+                        "senderusername": "testrunner2",
+                        "receiverusername": "testrunner1",
+                        "isread": false,
+                        "updatedAt": "2019-06-22T07:56:42.157Z",
+                        "createdAt": "2019-06-22T07:56:42.157Z"
+                    }
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /messages/send/testrunner1
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "message": "message field cannot be left blank"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /messages/send/testrunner1
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated'
+                }
+            }   
+
+## Retrieve messages [/messages]
+
+### Retrieve all user's messages [GET]
+
+  * Helps a user retrieves all his messages
+  
++ Request (application/json)
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /messages
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "All user's messages returned successfully",
+                    "retrievedMessages": {
+                        "count": 1,
+                        "rows": [
+                            {
+                                "id": 1,
+                                "message": "Hello, I can develop your web app",
+                                "senderusername": "testrunner2",
+                                "receiverusername": "testrunner1",
+                                "isread": true,
+                                "createdAt": "2019-06-22T07:56:42.157Z",
+                                "updatedAt": "2019-06-22T07:56:42.157Z"
+                            }
+                        ]
+                    }
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /messages
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /messages
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated'
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /messages
+
+            
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "User have not received any messages yet",
+                    "retrievedMessages": {
+                        "count": 0,
+                        "rows": []
+                    }
+                }
+            }
+            
+## Retrieve specific messages [/messages/{username}]
++ Parameters
+    + username (text) - testrunner1
+
+### Retrieve a user's conversation [GET]
+
+  * Helps a user retrieves his conversation with another user
+  
++ Request (application/json)
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /messages/testrunner1
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "User's conversation with this person returned successfully",
+                    "retrievedMessages": {
+                        "count": 1,
+                        "rows": [
+                            {
+                                "id": 1,
+                                "message": "Hello, I can develop your web app",
+                                "senderusername": "testrunner2",
+                                "receiverusername": "testrunner1",
+                                "isread": true,
+                                "createdAt": "2019-06-22T07:56:42.157Z",
+                                "updatedAt": "2019-06-22T07:56:42.157Z"
+                            }
+                        ]
+                    }
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /messages/testrunner1
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /messages/testrunner1
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated'
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /messages/testrunner1
+
+            
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "User have no conversation with this person"
+                }
+            }
+            
+## Delete specific messages [/messages/remove/{username}]
++ Parameters
+    + username (text) - testrunner1
+
+### Delete a user's conversation [DELETE]
+
+  * Helps a user delete his conversation with another user
+  
++ Request (application/json)
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /messages/remove/testrunner1
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Conversation deleted successfully"
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /messages/remove/testrunner1
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /messages/remove/testrunner1
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated'
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /messages/remove/testrunner1
+
+            
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "No conversation found"
+                }
+            }
+            
+## Delete all messages [/messages/remove]
+
+### Delete all user's conversation [DELETE]
+
+  * Helps a user delete all his conversation with every other user
+  
++ Request (application/json)
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /messages/remove
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "All Conversation deleted successfully"
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /messages/remove
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /messages/remove
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated'
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /messages/remove
+
+            
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "No conversation found"
+                }
+            }
+            
+            
+## Update specific messages [/messages/update/{username}]
++ Parameters
+    + username (text) - testrunner1
+
+### Update a user's conversation [PUT]
+
+  * Helps to update read status of a user's conversation
+  
++ Request (application/json)
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /messages/update/testrunner1
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "User's read status for this conversation with this person updated successfully"
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /messages/update/testrunner1
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /messages/testrunner1
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated'
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /messages/update/testrunner1
+
+            
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "User have no conversation with this person"
+                }
+            }
+            
+            
+            
+## Notifications [/notifications]
+
+### Retrieve all user's notifications [GET]
+
+  * Helps to retrieve all user's notifications
+  
++ Request (application/json)
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /notifications
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Notifications returned successfully",
+                    "allNotifications": {
+                        "count": 4,
+                        "rows": [
+                            {
+                                "id": 4,
+                                "senderusername": "testrunner2",
+                                "receiverusername": "testrunner1",
+                                "content": "I want to you to build a rocket for me",
+                                "typeofnotification": "message",
+                                "typeofnotificationid": 54,
+                                "isread": true,
+                                "createdAt": "2019-06-23T13:03:19.804Z",
+                                "updatedAt": "2019-06-23T14:07:59.682Z"
+                            },
+                            {
+                                "id": 3,
+                                "senderusername": "testrunner2",
+                                "receiverusername": "testrunner1",
+                                "content": "I want to you to build a react front end app for me",
+                                "typeofnotification": "message",
+                                "typeofnotificationid": 53,
+                                "isread": true,
+                                "createdAt": "2019-06-23T13:00:52.148Z",
+                                "updatedAt": "2019-06-23T14:07:59.682Z"
+                            },
+                            {
+                                "id": 2,
+                                "senderusername": "testrunner2",
+                                "receiverusername": "testrunner1",
+                                "content": "I want to you to create a web app for me",
+                                "typeofnotification": "message",
+                                "typeofnotificationid": 52,
+                                "isread": true,
+                                "createdAt": "2019-06-23T12:56:51.092Z",
+                                "updatedAt": "2019-06-23T14:07:59.682Z"
+                            },
+                            {
+                                "id": 1,
+                                "senderusername": "testrunner2",
+                                "receiverusername": "testrunner1",
+                                "content": "I want to you to do a business card for me",
+                                "typeofnotification": "message",
+                                "typeofnotificationid": 37,
+                                "isread": true,
+                                "createdAt": "2019-06-23T12:04:09.788Z",
+                                "updatedAt": "2019-06-23T14:07:59.682Z"
+                            }
+                        ]
+                    }
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /notifications
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /notifications
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated'
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /messages
+
+            
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "You don't have any notifications yet",
+                    "allNotifications": {}
+                }
+            }
+            
+## Retrieve a specific user's notifications [/notifications/{notificationId}]
++ Parameters
+    + notificationId (number) - 1
+
+### Retrieve one of user's notifications [GET]
+
+  * Helps to retrieve one of user's notifications
+  
++ Request (application/json)
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /notifications/1
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Notification returned successfully",
+                    "notification": {
+                        "count": 1,
+                        "rows": [
+                            {
+                                "id": 1,
+                                "senderusername": "testrunner2",
+                                "receiverusername": "testrunner1",
+                                "content": "I want to you to do a business card for me",
+                                "typeofnotification": "message",
+                                "typeofnotificationid": 37,
+                                "isread": false,
+                                "createdAt": "2019-06-23T12:04:09.788Z",
+                                "updatedAt": "2019-06-23T12:04:09.788Z"
+                            }
+                        ]
+                    }
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /notifications/1
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /notifications/1
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated'
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /messages/testrunner1
+
+            
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "You don't have any notifications yet",
+                    "notification": {}
+                }
+            }
+            
+## Delete notifications [/notifcations/remove/{notificationId}]
++ Parameters
+    + notificationId (number) - 1
+
+### Delete a user's notification [DELETE]
+
+  * Helps a to delete one of a user's notifications
+  
++ Request (application/json)
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /notifications/remove/1
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "Notification deleted successfully"
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /notifications/remove/1
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /notifications/remove/1
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated'
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /notifications/remove/1
+
+            
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "Notification not found",
+                    "notification": {}
+                }
+            }
+            
+## Update notifications [/notifications/{update}]
+
+### Update a user's notifications [PUT]
+
+  * Helps to update read status of user's notifications
+  
++ Request (application/json)
+
+    + Headers
+
+            Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJ1bm5lckBydW5uZXIuY29tIiwidXNlcklkIjoxLCJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VybmFtZSI6ImludmFsaWR1c2VyIiwiaWF0IjoxNTU5Mzk2Nzg2LCJleHAiOjE1NTk0ODMxODZ9.0PItRXbVtKezfd6FTLTgEcKYOGd1EY3UVYOLWGcgACo
+        
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /notifications/update
+
+    + Body        
+    
+    
+            {
+                "status": 200,
+                "data": {
+                    "message": "User's read status for these notifications updated successfully"
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /notifications/update
+
+            
+    + Body        
+    
+            {
+                "status": 400,
+                "data": {
+                    "error": {
+                        "token": "No token provided, please provide one"
+                    }
+                }
+            }
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /notifications/update
+
+            
+    + Body        
+    
+            {
+                status: 401,
+                data: {
+                    error: 'Unauthorized, user not authenticated'
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /messages/update/testrunner1
+
+            
+    + Body        
+    
+            {
+                "status": 404,
+                "data": {
+                    "message": "User have no notifications yet"
+                }
+            }
+            
+            
+## Listen for notifications [/nourl]
+
+### Listen for all type of notifications [GET]
+            
+            
++ Response 200 (application/json)
+
+
+            
+    + Body        
+    
+            {
+                
+                // Dart client
+                IO.Socket socket = IO.io('https://errnd.herokuapp.com:3005');
+                socket.on('notification_created', (data) => print(data));
+                
+                Read more on how to listen for real time socket events here
+                https://github.com/rikulo/socket.io-client-dart
+                    
+            }
