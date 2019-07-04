@@ -5,21 +5,16 @@ import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import validator from 'express-validator';
+import passport from 'passport';
 import cors from 'cors';
+import passportConfig from './config/passport/facebook';
 import { StatusResponse } from './helpers';
 // Routes
 import {
-  auth,
-  profile,
-  roles,
-  services,
-  bookmarks,
-  messages,
-  notifications,
-  orders
+  auth
 } from './routes';
 
-const PORT = process.env.PORT || 3005;
+const PORT = process.env.PORT || 3006;
 
 const app = express();
 
@@ -28,21 +23,18 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/api/v1/auth', auth);
-app.use('/api/v1/profile', profile);
-app.use('/api/v1/role', roles);
-app.use('/api/v1/services', services);
-app.use('/api/v1/bookmarks', bookmarks);
-app.use('/api/v1/messages', messages);
-app.use('/api/v1/notifications', notifications);
-app.use('/api/v1/orders', orders);
+
+passportConfig();
 
 // Default to here on home route
 app.get('/', (req, res) => StatusResponse.success(res, {
   status: 200,
   data: {
-    message: 'Welcome to Errnd API, A platform where your errands are completed by your communities'
+    message: 'Welcome to AdvertiseIt API, A platform to do social commerce'
   }
 }));
 
@@ -50,7 +42,7 @@ app.get('/', (req, res) => StatusResponse.success(res, {
 app.get('/api/v1', (req, res) => StatusResponse.success(res, {
   status: 200,
   data: {
-    message: 'Welcome to Errnd API, A platform where your errands are completed by your communities'
+    message: 'Welcome to AdvertiseIt API, A platform to do social commerce'
   }
 }));
 

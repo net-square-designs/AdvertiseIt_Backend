@@ -22,7 +22,12 @@ export function up(queryInterface, Sequelize) {
     },
     username: {
       type: Sequelize.STRING,
-      unique: true
+      unique: true,
+      allowNull: false,
+    },
+    productsofinterest: {
+      type: Sequelize.ARRAY(Sequelize.STRING),
+      allowNull: false
     },
     createdAt: {
       allowNull: false,

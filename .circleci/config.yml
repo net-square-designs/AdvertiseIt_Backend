@@ -36,5 +36,5 @@ jobs:
       # run tests!
       - run: npm test
 
-       # run tests!
+       # run coverage!
       - run: npm run coverage

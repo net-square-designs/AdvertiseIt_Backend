@@ -7,7 +7,7 @@ import { StatusResponse } from '../helpers';
 // This function validates input from a user
 const validateUserOnSignUp = (req, res, next) => {
   const {
-    username, role, email, password
+    username, role, email, password, productsofinterest
   } = req.body;
 
   if (
@@ -15,6 +15,7 @@ const validateUserOnSignUp = (req, res, next) => {
       || !email
       || !role
       || !password
+      || !productsofinterest
   ) {
     StatusResponse.badRequest(res, {
       status: 400,
@@ -24,6 +25,7 @@ const validateUserOnSignUp = (req, res, next) => {
           password: !password ? 'password must be filled' : '',
           username: !username ? 'username must be filled' : '',
           role: !role ? 'role must be filled' : '',
+          productsofinterest: !productsofinterest ? 'products of interest must be filled' : '',
         }
       }
     });
@@ -36,11 +38,11 @@ const validateUserOnSignUp = (req, res, next) => {
         },
       }
     });
-  } else if (role !== 'runner' && role !== 'customer') {
+  } else if (role !== 'customer-merchant' && role !== 'influencer') {
     StatusResponse.badRequest(res, {
       status: 400,
       data: {
-        error: 'role must be runner or customer'
+        error: 'role must be customer-merchant or influencer'
       }
     });
   } else {

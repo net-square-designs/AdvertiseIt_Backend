@@ -1,9 +1,9 @@
-[![CircleCI](https://circleci.com/gh/net-square-designs/Errnd/tree/develop.svg?style=svg)](https://circleci.com/gh/net-square-designs/Errnd/tree/develop)
-[![Coverage Status](https://coveralls.io/repos/github/net-square-designs/Errnd/badge.svg?branch=develop)](https://coveralls.io/github/net-square-designs/Errnd?branch=develop)
+[![CircleCI](https://circleci.com/gh/net-square-designs/Errnd/tree/develop.svg?style=svg)](https://circleci.com/gh/net-square-designs/AdvertiseIt/tree/develop)
+[![Coverage Status](https://coveralls.io/repos/github/net-square-designs/AdvertiseIt_Backend/badge.svg?branch=develop)](https://coveralls.io/github/net-square-designs/AdvertiseIt_Backend?branch=develop)
 
-# Errnd
+# AdvertiseIt
 ## Description
-Errnd is a platform where your errands are completed by your communities
+AdvertiseIt is a platform that enables you to do social commerce
 
 ## Technologies
   * Node.js
@@ -13,10 +13,10 @@ Errnd is a platform where your errands are completed by your communities
   * Babel
 
 ## API Link
-[Link](https://errnd.herokuapp.com/api/v1)
+[Link](https://advertiseit-backend.herokuapp.com/api/v1)
 
 ## Documentation
-[Link](https://errnd.docs.apiary.io/#)
+[Link](https://advertiseit1.docs.apiary.io/#)
 
 ## API Routes
 * Register a user
@@ -29,30 +29,13 @@ Errnd is a platform where your errands are completed by your communities
     ``` 
     POST /auth/login 
     ```
-* Create a profile
+* Login through social media - Facebook
 
     ``` 
-    POST /profile/:username
+    GET /auth/facebook
     ```
-* View a profile
-
     ``` 
-    GET /profile/:username 
-    ```
-* Switch roles
-
-    ``` 
-    PUT /role/:username
-    ```
-* Create a service
-
-    ``` 
-    POST /services/:username 
-    ```
-* Update a service
-
-    ``` 
-    PUT /services/:username/update/:serviceId 
+    GET /auth/facebook/callback
     ```
 
 ## Installation
@@ -72,7 +55,7 @@ Errnd is a platform where your errands are completed by your communities
    
  * Check API index with Postman
  
-   * http://localhost:3005/api/v1
+   * http://localhost:3006/api/v1
    
  * Run test with
  
