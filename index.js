@@ -11,7 +11,8 @@ import passportConfig from './config/passport/facebook';
 import { StatusResponse } from './helpers';
 // Routes
 import {
-  auth
+  auth,
+  profile
 } from './routes';
 
 const PORT = process.env.PORT || 3006;
@@ -27,6 +28,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/profile', profile);
 
 passportConfig();
 
