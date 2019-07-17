@@ -81,6 +81,16 @@ class StatusResponse {
   static forbidden(res, data) {
     return res.status(403).json(data);
   }
+
+  /**
+   * @description - partial data
+   * @param {object} res - response object
+   * @param {object} data - returned data
+   * @returns {JSON}
+   */
+  static partial(res, data) {
+    return res.status(206).json(data);
+  }
 }
 
 export default StatusResponse;

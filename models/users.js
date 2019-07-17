@@ -8,6 +8,10 @@ export default (sequelize, DataTypes) => {
     productsofinterest: DataTypes.ARRAY(DataTypes.STRING)
   }, {});
   Users.associate = (models) => {
+    Users.hasOne(models.profiles, {
+      foreignKey: 'userId',
+      as: 'profile'
+    });
   };
   return Users;
 };
