@@ -12,7 +12,8 @@ import { StatusResponse } from './helpers';
 // Routes
 import {
   auth,
-  profile
+  profile,
+  products
 } from './routes';
 
 const PORT = process.env.PORT || 3006;
@@ -29,6 +30,7 @@ app.use(passport.session());
 
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/profile', profile);
+app.use('/api/v1/products', products);
 
 passportConfig();
 

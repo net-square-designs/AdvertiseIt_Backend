@@ -77,7 +77,7 @@ class Profile {
       StatusResponse.internalServerError(res, {
         status: 500,
         data: {
-          error: `Internal server error => ${error}`
+          error: 'Internal server error'
         }
       });
     }
@@ -165,7 +165,7 @@ class Profile {
         StatusResponse.internalServerError(res, {
           status: 500,
           data: {
-            error: [`Internal server error => ${error}`]
+            error: 'Internal server error'
           }
         });
       }
