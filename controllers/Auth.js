@@ -111,11 +111,39 @@ class Auth {
    * @return {object} users data
    */
   static async socialAuth(req, res) {
-    const { email, username } = req.body;
+    const { email, username, roleChangedTo } = req.body;
+
+    const foundSocialUser = await users.findOne({
+      where: {
+        email,
+      }
+    });
 
     const foundUser = await findUser('email', email);
 
-    if (foundUser) {
+    if (foundSocialUser && roleChangedTo === 'influencer') {
+      await foundSocialUser.destroy({});
+
+      const newUser = await users.create({
+        role: 'influencer',
+        password: '',
+        email,
+        username,
+        productsofinterest: foundUser.productsofinterest || ['sports', 'tech', 'music', 'apple', 'android', 'clothing', 'gadgets', 'nike', 'home', 'phones', 'computer']
+      });
+
+      const token = await generateToken(newUser.dataValues.email, newUser.dataValues.id,
+        newUser.dataValues.role, newUser.dataValues.username,
+        newUser.dataValues.productsofinterest);
+      const payload = {
+        status: 201,
+        data: {
+          message: 'User created successfully',
+          token,
+        }
+      };
+      StatusResponse.created(res, payload);
+    } else if (foundUser) {
       StatusResponse.success(res, {
         status: 200,
         data: {
