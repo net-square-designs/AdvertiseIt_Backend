@@ -3,9 +3,11 @@
 import auth from './auth';
 import profile from './profile';
 import products from './products';
+import roles from './roles';
 
 export {
   auth,
   profile,
-  products
+  products,
+  roles
 };
