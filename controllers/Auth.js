@@ -122,27 +122,22 @@ class Auth {
     const foundUser = await findUser('email', email);
 
     if (foundSocialUser && roleChangedTo === 'influencer') {
-      await foundSocialUser.destroy({});
-
-      const newUser = await users.create({
-        role: 'influencer',
-        password: '',
-        email,
-        username,
-        productsofinterest: foundUser.productsofinterest || ['sports', 'tech', 'music', 'apple', 'android', 'clothing', 'gadgets', 'nike', 'home', 'phones', 'computer']
+      await foundSocialUser.update({
+        role: 'influencer'
       });
 
-      const token = await generateToken(newUser.dataValues.email, newUser.dataValues.id,
-        newUser.dataValues.role, newUser.dataValues.username,
-        newUser.dataValues.productsofinterest);
+      const token = await generateToken(foundSocialUser.dataValues.email,
+        foundSocialUser.dataValues.id,
+        'influencer', foundSocialUser.dataValues.username,
+        foundSocialUser.dataValues.productsofinterest);
       const payload = {
-        status: 201,
+        status: 200,
         data: {
-          message: 'User created successfully',
+          message: "User's role updated successfully to an influencer",
           token,
         }
       };
-      StatusResponse.created(res, payload);
+      StatusResponse.success(res, payload);
     } else if (foundUser) {
       StatusResponse.success(res, {
         status: 200,
