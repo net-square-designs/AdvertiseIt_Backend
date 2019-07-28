@@ -16,27 +16,7 @@ AdvertiseIt is a platform that enables you to do social commerce
 [Link](https://advertiseit-backend.herokuapp.com/api/v1)
 
 ## Documentation
-[Link](https://advertiseit1.docs.apiary.io/#)
-
-## API Routes
-* Register a user
-
-    ``` 
-    POST /auth/signup
-    ```
-* Login a user
-
-    ``` 
-    POST /auth/login 
-    ```
-* Login through social media - Facebook
-
-    ``` 
-    GET /auth/facebook
-    ```
-    ``` 
-    GET /auth/facebook/callback
-    ```
+[Link](https://documenter.getpostman.com/view/4628385/SVYjU2s5?version=latest)
 
 ## Installation
  * Ensure you have node 10.x.x installed.
