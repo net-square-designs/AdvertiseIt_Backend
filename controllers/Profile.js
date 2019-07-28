@@ -120,7 +120,7 @@ class Profile {
 
       try {
         if (returnedProfile) {
-          const createdUsersProfile = await returnedProfile.update({
+          const updatedUsersProfile = await returnedProfile.update({
             firstName: firstName || returnedProfile.dataValues.firstName,
             lastName: lastName || returnedProfile.dataValues.lastName,
             bio: bio || returnedProfile.dataValues.bio,
@@ -128,14 +128,16 @@ class Profile {
             image: image || returnedProfile.dataValues.image,
             location: location || returnedProfile.dataValues.location,
             storeName: storeName || returnedProfile.dataValues.storeName,
-            bank: bank || returnedProfile.dataValues.bank,
+            bank: JSON.stringify(bank) || returnedProfile.dataValues.bank,
             website: website || returnedProfile.dataValues.website
           });
           StatusResponse.success(res, {
             status: 200,
             data: {
               message: "User's profile updated successfully",
-              profile: createdUsersProfile
+              profile: Object.assign(updatedUsersProfile, {
+                bank: JSON.parse(updatedUsersProfile.bank)
+              })
             }
           });
         } else {
